@@ -1,9 +1,4 @@
-import {
-    BookCheck,
-    BookUser,
-    Home,
-    Users,
-} from "lucide-react";
+import { BookCheck, BookUser, Home, Users, GraduationCap } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -17,17 +12,27 @@ export const navbarLinks = [
         ],
     },
     {
-        title: "Empleados",
+        title: "Escuela",
         links: [
             {
-                label: "Empleados",
+                label: "Docentes",
                 icon: BookUser,
-                path: "/app/Empleados",
+                path: "/app/Dashboard",
             },
             {
-                label: "Nuevo Empleado",
+                label: "Alumnos",
                 icon: Users,
-                path: "/app/nuevoEmpleado",
+                path: "/app/Dashboard",
+            },
+        ],
+    },
+    {
+        title: "Clases",
+        links: [
+            {
+                label: "Cursos",
+                icon: BookUser,
+                path: "/app/Dashboard",
             },
         ],
     },
@@ -36,18 +41,47 @@ export const navbarLinks = [
         links: [
             {
                 label: "Asistencias",
-                icon: BookUser,
-                path: "/app/Asistencias",
+                icon: BookCheck,
+                path: "/app/Dashboard",
             },
         ],
     },
+];
+
+export const adminLinks = [
     {
-        title: "Permisos",
+        title: "Administración",
         links: [
             {
-                label: "Permisos",
-                icon: BookCheck,
-                path: "/app/Permisos",
+                label: "Gestión de Usuarios",
+                icon: Users,
+                path: "/app/admin/usuarios",
+            },
+        ],
+    },
+];
+
+export const docenteLinks = [
+    {
+        title: "Docente",
+        links: [
+            {
+                label: "Mis Calificaciones",
+                icon: GraduationCap,
+                path: "/app/docente/calificaciones",
+            },
+        ],
+    },
+];
+
+export const estudianteLinks = [
+    {
+        title: "Estudiante",
+        links: [
+            {
+                label: "Mis Calificaciones",
+                icon: GraduationCap,
+                path: "/app/estudiante/calificaciones",
             },
         ],
     },
