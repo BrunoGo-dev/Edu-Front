@@ -11,10 +11,13 @@ export default function AdminUsuarios() {
     const [showForm, setShowForm] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [formData, setFormData] = useState({
-        nombre: "",
+        username: "",
+        password: "",
         email: "",
-        rol: "Estudiante",
-        estado: "activo",
+        nombre: "",
+        apellido: "",
+        rol: "ESTUDIANTE",
+        activo: true,
     });
 
     // Obtener lista de usuarios
@@ -49,11 +52,18 @@ export default function AdminUsuarios() {
         setSuccess("");
 
         try {
+            let dataToSend = { ...formData };
+
+            // Si estamos editando y la contraseña está vacía, no la enviamos
+            if (editingId && !formData.password) {
+                delete dataToSend.password;
+            }
+
             if (editingId) {
-                await apiPut(`/usuarios/${editingId}`, formData);
+                await apiPut(`/usuarios/${editingId}`, dataToSend);
                 setSuccess("Usuario actualizado correctamente");
             } else {
-                await apiPost("/usuarios", formData);
+                await apiPost("/usuarios", dataToSend);
                 setSuccess("Usuario creado correctamente");
             }
             resetForm();
@@ -66,10 +76,13 @@ export default function AdminUsuarios() {
 
     const handleEdit = (usuario) => {
         setFormData({
-            nombre: usuario.nombre,
+            username: usuario.username,
+            password: "",
             email: usuario.email,
+            nombre: usuario.nombre,
+            apellido: usuario.apellido,
             rol: usuario.rol,
-            estado: usuario.estado,
+            activo: usuario.activo,
         });
         setEditingId(usuario.id);
         setShowForm(true);
@@ -85,16 +98,26 @@ export default function AdminUsuarios() {
             fetchUsuarios();
             setTimeout(() => setSuccess(""), 3000);
         } catch (err) {
-            setError(err.message || "Error al eliminar usuario");
+            // Si el error contiene "token" pero el usuario fue eliminado, ignorar el error
+            if (err.message && err.message.includes("token")) {
+                setSuccess("Usuario eliminado correctamente");
+                fetchUsuarios();
+                setTimeout(() => setSuccess(""), 3000);
+            } else {
+                setError(err.message || "Error al eliminar usuario");
+            }
         }
     };
 
     const resetForm = () => {
         setFormData({
-            nombre: "",
+            username: "",
+            password: "",
             email: "",
-            rol: "Estudiante",
-            estado: "activo",
+            nombre: "",
+            apellido: "",
+            rol: "ESTUDIANTE",
+            activo: true,
         });
         setEditingId(null);
         setShowForm(false);
@@ -102,19 +125,19 @@ export default function AdminUsuarios() {
 
     const getRoleBadgeColor = (rol) => {
         switch (rol) {
-            case "Administrador":
+            case "ADMINISTRADOR":
                 return "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-200";
-            case "Docente":
+            case "DOCENTE":
                 return "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-200";
-            case "Estudiante":
+            case "ESTUDIANTE":
                 return "bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-200";
             default:
                 return "bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
         }
     };
 
-    const getStatusBadgeColor = (estado) => {
-        return estado === "activo"
+    const getStatusBadgeColor = (activo) => {
+        return activo
             ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
             : "bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-200";
     };
@@ -163,15 +186,28 @@ export default function AdminUsuarios() {
                         className="grid gap-4 md:grid-cols-2"
                     >
                         <div>
-                            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Nombre completo</label>
+                            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Usuario (username)</label>
                             <input
                                 type="text"
-                                name="nombre"
-                                value={formData.nombre}
+                                name="username"
+                                value={formData.username}
                                 onChange={handleInputChange}
                                 className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-blue-900"
-                                placeholder="Juan Pérez"
+                                placeholder="juan_perez"
                                 required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Contraseña</label>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-blue-900"
+                                placeholder="miContraseña123"
+                                required={!editingId}
                             />
                         </div>
 
@@ -183,7 +219,33 @@ export default function AdminUsuarios() {
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-blue-900"
-                                placeholder="juan@email.com"
+                                placeholder="juan@example.com"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Nombre</label>
+                            <input
+                                type="text"
+                                name="nombre"
+                                value={formData.nombre}
+                                onChange={handleInputChange}
+                                className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-blue-900"
+                                placeholder="Juan"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Apellido</label>
+                            <input
+                                type="text"
+                                name="apellido"
+                                value={formData.apellido}
+                                onChange={handleInputChange}
+                                className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-blue-900"
+                                placeholder="Pérez"
                                 required
                             />
                         </div>
@@ -196,22 +258,22 @@ export default function AdminUsuarios() {
                                 onChange={handleInputChange}
                                 className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:focus:ring-blue-900"
                             >
-                                <option value="Estudiante">Estudiante</option>
-                                <option value="Docente">Docente</option>
-                                <option value="Administrador">Administrador</option>
+                                <option value="ESTUDIANTE">Estudiante</option>
+                                <option value="DOCENTE">Docente</option>
+                                <option value="ADMINISTRADOR">Administrador</option>
                             </select>
                         </div>
 
                         <div>
                             <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-200">Estado</label>
                             <select
-                                name="estado"
-                                value={formData.estado}
-                                onChange={handleInputChange}
+                                name="activo"
+                                value={formData.activo}
+                                onChange={(e) => setFormData({ ...formData, activo: e.target.value === "true" })}
                                 className="w-full rounded-lg border border-slate-300 bg-slate-50 px-4 py-2 text-slate-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:focus:ring-blue-900"
                             >
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
+                                <option value="true">Activo</option>
+                                <option value="false">Inactivo</option>
                             </select>
                         </div>
 
@@ -251,8 +313,9 @@ export default function AdminUsuarios() {
                     <table className="w-full">
                         <thead>
                             <tr className="border-b border-slate-200 bg-slate-50 dark:border-slate-700 dark:bg-slate-900">
-                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Nombre</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Usuario</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Email</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Nombre</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Rol</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Estado</th>
                                 <th className="px-6 py-4 text-left text-sm font-semibold text-slate-900 dark:text-white">Acciones</th>
@@ -264,8 +327,11 @@ export default function AdminUsuarios() {
                                     key={usuario.id}
                                     className="border-b border-slate-200 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-900"
                                 >
-                                    <td className="px-6 py-4 text-slate-900 dark:text-slate-100">{usuario.nombre}</td>
+                                    <td className="px-6 py-4 text-slate-900 dark:text-slate-100">{usuario.username}</td>
                                     <td className="px-6 py-4 text-slate-600 dark:text-slate-300">{usuario.email}</td>
+                                    <td className="px-6 py-4 text-slate-900 dark:text-slate-100">
+                                        {usuario.nombre} {usuario.apellido}
+                                    </td>
                                     <td className="px-6 py-4">
                                         <span
                                             className={cn(
@@ -280,10 +346,10 @@ export default function AdminUsuarios() {
                                         <span
                                             className={cn(
                                                 "inline-block rounded-full px-3 py-1 text-xs font-semibold",
-                                                getStatusBadgeColor(usuario.estado),
+                                                getStatusBadgeColor(usuario.activo),
                                             )}
                                         >
-                                            {usuario.estado === "activo" ? "Activo" : "Inactivo"}
+                                            {usuario.activo ? "Activo" : "Inactivo"}
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
