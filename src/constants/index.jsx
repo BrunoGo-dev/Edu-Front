@@ -1,4 +1,4 @@
-import { BookCheck, BookUser, Home, Users, GraduationCap } from "lucide-react";
+import { BookCheck, BookUser, Home, Users, GraduationCap, Clock } from "lucide-react";
 
 export const navbarLinks = [
     {
@@ -70,6 +70,11 @@ export const docenteLinks = [
                 icon: GraduationCap,
                 path: "/app/docente/calificaciones",
             },
+            {
+                label: "Pasar Lista",
+                icon: Clock,
+                path: "/app/docente/asistencia",
+            },
         ],
     },
 ];
@@ -82,6 +87,11 @@ export const estudianteLinks = [
                 label: "Mis Calificaciones",
                 icon: GraduationCap,
                 path: "/app/estudiante/calificaciones",
+            },
+            {
+                label: "Mi Asistencia",
+                icon: Clock,
+                path: "/app/estudiante/asistencia",
             },
         ],
     },

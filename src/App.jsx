@@ -8,6 +8,8 @@ import LoginPage from "@/routes/Login/page";
 import AdminUsuarios from "@/routes/Admin/page";
 import DocenteCalificaciones from "@/routes/Docente/page";
 import EstudianteCalificaciones from "@/routes/Estudiante/page";
+import DocenteAsistencia from "@/routes/Docente/Asistencia";
+import EstudianteAsistencia from "@/routes/Estudiante/Asistencia";
 
 function App() {
     const router = createBrowserRouter([
@@ -64,6 +66,22 @@ function App() {
                     element: (
                         <ProtectedRoute requiredRoles="ESTUDIANTE">
                             <EstudianteCalificaciones />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "docente/asistencia",
+                    element: (
+                        <ProtectedRoute requiredRoles="DOCENTE">
+                            <DocenteAsistencia />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "estudiante/asistencia",
+                    element: (
+                        <ProtectedRoute requiredRoles="ESTUDIANTE">
+                            <EstudianteAsistencia />
                         </ProtectedRoute>
                     ),
                 },
