@@ -8,7 +8,9 @@
  * que debe estar configurado en tu servidor
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const API_BASE_URL = import.meta.env.PROD 
+    ? import.meta.env.VITE_API_URL_PROD 
+    : import.meta.env.VITE_API_URL_DEV;
 
 export class APIError extends Error {
     constructor(message, status, data) {
@@ -27,7 +29,7 @@ export class APIError extends Error {
  * @returns {Promise} - Los datos de la respuesta
  */
 export async function apiCall(endpoint, options = {}, skipBaseUrl = false) {
-    const url = skipBaseUrl ? `http://localhost:8080${endpoint}` : `${API_BASE_URL}${endpoint}`;
+    const url = `${API_BASE_URL}${endpoint}`;
     
     const defaultHeaders = {
         'Content-Type': 'application/json',
@@ -138,7 +140,7 @@ export async function apiPatch(endpoint, data) {
  */
 export async function loginRequest(credentials) {
     try {
-        const response = await fetch('http://localhost:8080/login', {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
