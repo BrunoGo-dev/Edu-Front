@@ -23,7 +23,7 @@ const SideBar = forwardRef(({ collapsed }, ref) => {
         >
             <div className="flex gap-x-3 p-3">
                 <img
-                    src="https://static.vecteezy.com/system/resources/previews/007/468/567/non_2x/colorful-simple-flat-of-security-guard-icon-or-symbol-people-concept-illustration-vector.jpg"
+                    src="../../public/EduTrack.png"
                     alt="Logo"
                     className="size-10"
                 />

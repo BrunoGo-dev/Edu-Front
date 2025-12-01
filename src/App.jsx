@@ -3,13 +3,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/theme-context";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Layout from "@/routes/Layout";
-import DashboardPage from "@/routes/Dashboard/page";
+import InicioPage from "@/routes/Inicio/page";
 import LoginPage from "@/routes/Login/page";
 import AdminUsuarios from "@/routes/Admin/page";
 import DocenteCalificaciones from "@/routes/Docente/page";
 import EstudianteCalificaciones from "@/routes/Estudiante/page";
 import DocenteAsistencia from "@/routes/Docente/Asistencia";
 import EstudianteAsistencia from "@/routes/Estudiante/Asistencia";
+import DocenteTareas from "@/routes/Docente/Tareas";
+import EstudianteTareas from "@/routes/Estudiante/Tareas";
 
 function App() {
     const router = createBrowserRouter([
@@ -26,24 +28,8 @@ function App() {
             ),
             children: [
                 {
-                    path: "Dashboard",
-                    element: <DashboardPage />,
-                },
-                {
-                    path: "Cursos",
-                    element: <DashboardPage />,
-                },
-                {
-                    path: "Docentes",
-                    element: <DashboardPage />,
-                },
-                {
-                    path: "Asistencias",
-                    element: <DashboardPage />,
-                },
-                {
-                    path: "Tareas",
-                    element: <DashboardPage />,
+                    path: "Inicio",
+                    element: <InicioPage />,
                 },
                 {
                     path: "admin/usuarios",
@@ -82,6 +68,22 @@ function App() {
                     element: (
                         <ProtectedRoute requiredRoles="ESTUDIANTE">
                             <EstudianteAsistencia />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "docente/tareas",
+                    element: (
+                        <ProtectedRoute requiredRoles="DOCENTE">
+                            <DocenteTareas />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "estudiante/tareas",
+                    element: (
+                        <ProtectedRoute requiredRoles="ESTUDIANTE">
+                            <EstudianteTareas />
                         </ProtectedRoute>
                     ),
                 },

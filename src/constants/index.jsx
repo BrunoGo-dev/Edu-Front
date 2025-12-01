@@ -1,48 +1,13 @@
-import { BookCheck, BookUser, Home, Users, GraduationCap, Clock } from "lucide-react";
+import { BookCheck, BookUser, Home, Users, GraduationCap, Clock, ClipboardList } from "lucide-react";
 
 export const navbarLinks = [
     {
         title: "",
         links: [
             {
-                label: "Dashboard",
+                label: "Inicio",
                 icon: Home,
-                path: "/app/Dashboard",
-            },
-        ],
-    },
-    {
-        title: "Escuela",
-        links: [
-            {
-                label: "Docentes",
-                icon: BookUser,
-                path: "/app/Dashboard",
-            },
-            {
-                label: "Alumnos",
-                icon: Users,
-                path: "/app/Dashboard",
-            },
-        ],
-    },
-    {
-        title: "Clases",
-        links: [
-            {
-                label: "Cursos",
-                icon: BookUser,
-                path: "/app/Dashboard",
-            },
-        ],
-    },
-    {
-        title: "Asistencias",
-        links: [
-            {
-                label: "Asistencias",
-                icon: BookCheck,
-                path: "/app/Dashboard",
+                path: "/app/Inicio",
             },
         ],
     },
@@ -75,6 +40,11 @@ export const docenteLinks = [
                 icon: Clock,
                 path: "/app/docente/asistencia",
             },
+            {
+                label: "Tareas",
+                icon: ClipboardList,
+                path: "/app/docente/tareas",
+            },
         ],
     },
 ];
@@ -92,6 +62,11 @@ export const estudianteLinks = [
                 label: "Mi Asistencia",
                 icon: Clock,
                 path: "/app/estudiante/asistencia",
+            },
+            {
+                label: "Tareas",
+                icon: ClipboardList,
+                path: "/app/estudiante/tareas",
             },
         ],
     },

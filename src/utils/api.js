@@ -48,7 +48,6 @@ export async function apiCall(endpoint, options = {}, skipBaseUrl = false) {
     };
 
     try {
-        console.log(`[API] ${config.method || 'GET'} ${url}`);
         const response = await fetch(url, config);
 
         // Si la respuesta no es exitosa
@@ -68,7 +67,6 @@ export async function apiCall(endpoint, options = {}, skipBaseUrl = false) {
         }
 
         const responseData = await response.json();
-        console.log(`[API] Success:`, responseData);
         return responseData;
     } catch (error) {
         if (error instanceof APIError) {

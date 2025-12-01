@@ -18,7 +18,7 @@ export default function ProtectedRoute({ children, requiredRoles = null }) {
     if (requiredRoles && !hasRole(requiredRoles)) {
         return (
             <Navigate
-                to="/app/Dashboard"
+                to="/app/Inicio"
                 replace
             />
         );

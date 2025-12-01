@@ -18,7 +18,7 @@ export default function Login() {
 
         try {
             await login(username, password);
-            navigate("/app/Dashboard");
+            navigate("/app/Inicio");
         } catch (err) {
             setError(err.message || "Usuario o contraseña inválidos");
         } finally {
