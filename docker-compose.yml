@@ -1,0 +1,12 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL_DEV=http://localhost:8080
+      - VITE_API_URL_PROD=https://edu-996524162546.southamerica-west1.run.app
+    # Uncomment the following lines if you want to mount the source code for development
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules
