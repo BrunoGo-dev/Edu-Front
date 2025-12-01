@@ -1,31 +1,84 @@
 # Edu-frontend
 
-Plantilla base importada desde `BrunoGo-dev/front-asistencias`. Contiene la estructura base de la app: login, layout, sidebar, contexto de auth y rutas protegidas. Está pensada para que desarrolles las páginas de contenido en `src/routes`.
+Plataforma educativa moderna para la gestión de asistencias, tareas y calificaciones.
 
-Pasos para ejecutar localmente:
+## Características Principales
 
-1. Instalar dependencias
-   npm install
-   # o
-   yarn install
+- **Autenticación y Autorización**: Sistema seguro de login con roles de usuario (Docente, Estudiante).
+- **Gestión de Asistencias**: Registro y visualización de asistencias por curso.
+- **Gestión de Tareas**:
+  - **Docentes**: Creación de tareas, revisión de entregas y feedback.
+  - **Estudiantes**: Visualización de tareas pendientes y subida de entregas.
+- **Interfaz Moderna**: Diseño responsive y amigable utilizando TailwindCSS.
 
-2. Ejecutar en modo desarrollo
-   npm run dev
-   # o
-   yarn dev
+## Tecnologías
 
-Notas importantes:
-- Revisa `package.json` y actualiza el nombre del proyecto si lo deseas.
-- El código usa imports con alias `@/`. Asegúrate de que `vite.config.js` y `jsconfig.json`/`tsconfig.json` (si aplica) conserven el alias.
-- Endpoints API apuntan a `http://localhost:8080` en varios servicios (auth, permisos, usuarios). Configura variables de entorno si tus APIs están en otra URL.
-- Esta importación se hizo sin historial (copia limpia). Si quieres conservar commits, realiza un fork o histórico completo desde el repo origen.
+- **Frontend**: React, Vite
+- **Estilos**: TailwindCSS
+- **Estado y Rutas**: React Router DOM, Context API
+- **Contenedorización**: Docker
 
-Estructura principal:
-- src/
-  - routes/ (Login, Layout, páginas)
-  - layouts/ (Header, SideBar)
-  - contexts/ (auth-context)
-  - components/ (ProtectedRoute)
-  - constants/
-- index.html
-- tailwind.config.js
+## Requisitos Previos
+
+- Node.js (v18+)
+- npm o yarn
+
+## Instalación
+
+1.  Clonar el repositorio:
+    ```bash
+    git clone <url-del-repo>
+    cd front-asistencias
+    ```
+
+2.  Instalar dependencias:
+    ```bash
+    npm install
+    ```
+
+## Configuración
+
+Crear un archivo `.env` en la raíz del proyecto basándose en el siguiente ejemplo:
+
+```ini
+# URL de la API en desarrollo
+VITE_API_URL_DEV=http://localhost:8080
+
+```
+
+## Desarrollo
+
+Para iniciar el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`.
+
+## Despliegue
+
+### Docker
+
+El proyecto incluye un `Dockerfile` optimizado para despliegue en Cloud Run (puerto 3000).
+
+1.  Construir la imagen:
+    ```bash
+    docker build -t edu-frontend .
+    ```
+
+2.  Correr el contenedor:
+    ```bash
+    docker run -p 3000:3000 edu-frontend
+    ```
+
+### Google Cloud Run
+
+La configuración está lista para desplegarse en Cloud Run, exponiendo el servicio en el puerto 3000.
+
+## Estructura del Proyecto
+
+- `src/routes`: Páginas y vistas principales.
+- `src/layouts`: Componentes de estructura (Sidebar, Header).
+- `src/contexts`: Manejo de estado global (Auth).
+- `src/utils`: Utilidades y configuración de API.
