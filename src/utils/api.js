@@ -29,7 +29,7 @@ export class APIError extends Error {
  * @returns {Promise} - Los datos de la respuesta
  */
 export async function apiCall(endpoint, options = {}, skipBaseUrl = false) {
-    const url = `${API_BASE_URL}${endpoint}`;
+    const url = `${API_BASE_URL}/api${endpoint}`;
     
     const defaultHeaders = {
         'Content-Type': 'application/json',
